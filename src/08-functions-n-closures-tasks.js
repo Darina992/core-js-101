@@ -23,8 +23,8 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  return (x) => f(g(x));
 }
 
 
@@ -44,8 +44,10 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return function pow(base) {
+    return base ** exponent;
+  };
 }
 
 
@@ -62,8 +64,18 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...arg) {
+  return () => {
+    if (!arg.length) {
+      return null;
+    }
+    /*eslint-disable*/
+    const a = `${arg[2] > 1 ? `${arg[2]}x^2` : arg[2] === 1 ? 'x^2' : ''}`;
+    const b = `${arg[1] > 1 ? `+${arg[1]}x` : arg[1] === 1 ? '+ x' : ''}`;
+    const c = `${arg[0] && arg.length > 1 ? `+${arg[0]}` : arg[0] ? arg[0] : ''}`;
+    return `y = ${a}${b}${c}`;
+    /*eslint-disable*/
+  }
 }
 
 
@@ -81,8 +93,15 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const cache = {};
+  return (arg) => {
+    if (cache[`${arg}`]) {
+      return cache[`${arg}`];
+    }
+    cache[`${arg}`] = func(arg);
+    return cache[`${arg}`];
+  };
 }
 
 
@@ -147,8 +166,8 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return fn.bind(null,...args1)
 }
 
 
@@ -169,8 +188,13 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let i = startFrom;
+  return () =>
+    /* eslint-disable */
+     i++
+    /* eslint-disable */
+  ;
 }
 
 
