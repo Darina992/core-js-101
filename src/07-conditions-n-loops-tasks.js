@@ -296,8 +296,25 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const arr = ccn.toString().split('');
+  if (arr.length % 2 === 0) {
+    for (let i = 0; i < arr.length; i += 2) {
+      arr[i] = (arr[i] * 2).toString();
+      if (arr[i].length > 1) arr[i] = +arr[i][0] + +arr[i][1];
+    }
+  } else {
+    for (let i = 1; i < arr.length; i += 2) {
+      arr[i] = (arr[i] * 2).toString();
+      if (arr[i].length > 1) arr[i] = +arr[i][0] + +arr[i][1];
+    }
+  }
+
+  let val = 0;
+  const res = arr.map((item) => { const num = +item; val += num; return val; }).toString();
+
+  if (res[res.length - 1] === '0') return true;
+  return false;
 }
 
 /**
@@ -440,8 +457,27 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const matrix = new Array(m1.length);
+  let sum = 0;
+  let k = -1;
+
+  for (let i = 0; i < matrix.length; i += 1) {
+    matrix[i] = new Array(m2[0].length);
+  }
+
+  for (let i = 0; i < m1.length; i += 1) {
+    for (let n = 0; n < m2[0].length; n += 1) {
+      for (let j = 0; j < m1[0].length; j += 1) {
+        sum += m1[i][j] * m2[j][k + 1];
+      }
+      k += 1;
+      matrix[i][k] = sum;
+      sum = 0;
+    }
+    k = -1;
+  }
+  return matrix;
 }
 
 
